@@ -17,6 +17,7 @@ Prerequisites
 * Under the Additional tab, enable "Use Subdomains"
 * Under Misc, Enable Provisioning and set the External Provisioning URL: https://mydomain.com/app/sessiontalk/provision.php
 * Optional if using a port other than 5060: You can set the port in the domain name field like "example.com:5070", or use SRV records for more flexibility. Each full customer domain will need SRV records to specify the SIP port or the API does not set the SIP Port for the app during provisioning. Remember that SRV records don't support wildcard, so even if you are using *.example.com for your DNS, you need to use the full _sip._tcp.customer.example.com for an individual SRV record per customer.
+* Recommended extra step: Download the https://windows-softphone.s3.eu-west-2.amazonaws.com/sessioncloud.appxbundle generic installer file and host it elsewhere. It means that when an update is relaesed you will need to manually download it and put it wherever you are hosting it and then update the version number in the settings to match. If you don't self-host the file, the "Windows Softphone Link" will give errors if Sessiontalk updates the app until you update the "Version" settings. The reason is somewhat complicated, but the only fix I can come up with that downloads the .appxbundle in the background and reads the version number from inside the installer package to update the version settings.
 
 
 Install Steps
@@ -26,10 +27,11 @@ On your server
 
 ::
 
-  cd /usr/src
-  git clone https://github.com/fusionpbx/fusionpbx-apps
-  Move the directory 'sessiontalk' into your main FusionPBX directory
-  mv fusionpbx-apps/sessiontalk /var/www/fusionpbx/app
+  cd /var/www/fusionpbx/app
+  git clone https://github.com/demonspork/fusionpbx-app-sessiontalk
+  #rename the directory
+  mv fusionpbx-app-sessiontalk sessiontalk
+  #create the template directories (they don't need anything in them, just their existence is enough)
   cd /var/www/fusionpbx/resources/templates/provision/
   mkdir sessiontalk sessiontalk/windows sessiontalk/android sessiontalk/ios
   chown -R www-data:www-data /var/www/fusionpbx/app/sessiontalk /var/www/fusionpbx/resources/templates/provision/sessiontalk
@@ -66,7 +68,7 @@ Set up your default settings in Advanced>Default Settings or per domain in the d
 +---------------------------+--------------+-------------------------------------------------------------------------------------------------------+
 | windows_softphone         | true         | Enable the windows software installation link                                                         |
 +---------------------------+--------------+-------------------------------------------------------------------------------------------------------+
-| windows_softphone_url     | [cdn]        | URL for the appxbundle file. Defaults to the Amazon CDN link for the generic app.                            |
+| windows_softphone_url     | [cdn]        | URL for the appxbundle file. Defaults to the Amazon CDN link for the generic app.                     |
 +---------------------------+--------------+-------------------------------------------------------------------------------------------------------+
 | windows_softphone_version | 1.0.67.0     | Version number for the appxbundle in the url. Must match or you will get an error                     |
 +---------------------------+--------------+-------------------------------------------------------------------------------------------------------+
@@ -123,7 +125,7 @@ Activation Rules
 
 BONUS
 ^^^^^^
-If you want to be able to point the sessiontalk cloud external provisioning URL to be the same as the phones (https://pbx.example.com/app/provision) you can put this at the beginning of the app/provision/index.php file (After the opening comment block). I figured this out when I accidentally put the wrong URL in my cloud config for sessiontalk and didn't want to wait until they approved the correction to be able to test.
+If you want to be able to point the sessiontalk cloud external provisioning URL to be the same as the phones (https://pbx.example.com/app/provision/) you can put this at the beginning of the app/provision/index.php file (After the opening comment block). I figured this out when I accidentally put the wrong URL in my cloud config for sessiontalk and didn't want to wait until they approved the correction to be able to test.
 
 ::
 
