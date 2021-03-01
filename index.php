@@ -137,7 +137,12 @@ if (strpos($_SERVER['REQUEST_URI'],'.appinstaller') !== false) {
 			echo "	<option value='".escape($row['extension_uuid'])."' ".$selected.">".escape($row['extension'])." ".escape($row['number_alias'])." ".escape($row['description'])."</option>\n";
 		}
 	}
-	echo "</select>\n";
+	echo "</select>";
+
+	//Email button
+	send_email('msuiter@losh.com', "test", "Test message");
+
+	echo "\n";
 
 	echo "</form>\n";
 	echo "<br />\n";
