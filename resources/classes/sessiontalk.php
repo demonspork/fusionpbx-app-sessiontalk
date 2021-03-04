@@ -173,9 +173,9 @@ include "root.php";
 			}
 			$this->credentials['windows'] = "ms-appinstaller:?source=";
 			$protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-			$url = $protocol . $_SERVER['HTTP_HOST'] . "/app/sessiontalk/?".$_SESSION['sessiontalk']['windows_softphone_name']['text'].".appinstaller";
+			$url = $protocol . $_SERVER['HTTP_HOST'] . "/app/sessiontalk/?".$this->settings['windows_softphone_name']['text'].".appinstaller";
 			$this->credentials['windows'] .= $url;
-			//$this->credentials['windows'] .= $this->settings['windows_softphone_url']['text'];
+			//$this->credentials['windows'] .= $this->settings['windows_appinstaller_url']['text'];
 			$this->credentials['windows'] .= "&activationUri=scsc:?username=";
 			$this->credentials['windows'] .= $this->credentials['username'];
 			if (strlen($this->credentials['providerid']) > 0) {

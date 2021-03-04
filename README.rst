@@ -68,11 +68,11 @@ Set up your default settings in Advanced>Default Settings or per domain in the d
 +---------------------------+--------------+-------------------------------------------------------------------------------------------------------+
 | windows_softphone         | true         | Enable the windows software installation link                                                         |
 +---------------------------+--------------+-------------------------------------------------------------------------------------------------------+
-| windows_softphone_url     | [cdn]        | URL for the appxbundle file. Defaults to the Amazon CDN link for the generic app.                     |
+| windows_appinstaller_url  | [cdn]        | URL for the .appinstaller file. Defaults to the Amazon CDN link for the generic app.                  |
 +---------------------------+--------------+-------------------------------------------------------------------------------------------------------+
-| windows_softphone_version | 1.0.67.0     | Version number for the appxbundle in the url. Must match or you will get an error                     |
+| windows_update_interval   | 1            | App checks for update on launch, but a maximum of once per X hours. Defaults to 1 Hour                |
 +---------------------------+--------------+-------------------------------------------------------------------------------------------------------+
-| windows_softphone_name    | sessioncloud | File name for the installer file. Typically not seen by users                                         |
+| windows_softphone_name    | sessioncloud | File name for the appinstaller file. Typically not seen by users                                      |
 +---------------------------+--------------+-------------------------------------------------------------------------------------------------------+
 | srtp                      | Disabled     | Enabled or Disabled for srtp support                                                                  |
 +---------------------------+--------------+-------------------------------------------------------------------------------------------------------+
@@ -125,7 +125,8 @@ Activation Rules
 
 BONUS
 ^^^^^^
-If you want to be able to point the sessiontalk cloud external provisioning URL to be the same as the phones (https://pbx.example.com/app/provision/) you can put this at the beginning of the app/provision/index.php file (After the opening comment block). I figured this out when I accidentally put the wrong URL in my cloud config for sessiontalk and didn't want to wait until they approved the correction to be able to test.
+If you want to be able to point the sessiontalk cloud external provisioning URL to be the same as the phones (https://pbx.example.com/app/provision/) you can put this at the beginning of the app/provision/index.php file (After the opening comment block). 
+I figured this out when I accidentally put the wrong URL in my cloud config for sessiontalk and didn't want to wait until they approved the correction to be able to test.
 
 ::
 

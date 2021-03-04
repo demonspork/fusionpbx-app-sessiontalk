@@ -31,40 +31,48 @@
 	require_once "resources/require.php";
 	require_once "resources/functions/functions.php";
 
-    //check if logged in so we don't clobber the user's current session.
+    //check if logged in so we don't clobber the user's current session. Only applicable when testing/accessing directly.
+    //This file should usually be accessed by ms-appinstaller which won't have access to a user's cookies/_SESSION from their browser.
     if (!isset($_SESSION['domain_name'])) {
         $domain_name = $_REQUEST['HTTP_HOST'];
         load_defaults($domain_name);
     }
-    $windows_softphone_url = $_SESSION['sessiontalk']['windows_softphone_url']['text'];
-    $version = $_SESSION['sessiontalk']['windows_softphone_version']['text'];
 
-    //generate the .appinstaller XML
-    $xmlstr = "<?xml version='1.0' encoding='UTF-8'?><AppInstaller/>";
-    $appinstaller = new SimpleXMLElement($xmlstr);
-    $appinstaller->addAttribute('Version', '1.0.0.0');
-    $appinstaller->addAttribute('xmlns', "http://schemas.microsoft.com/appx/appinstaller/2017");
+    $appinstaller_url = $_SESSION['sessiontalk']['windows_appinstaller_url']['text'];
+    $update_interval = $_SESSION['sessiontalk']['windows_update_interval']['numeric'];
+    $softphone_name = $_SESSION['sessiontalk']['windows_softphone_name']['text'];
 
-    //generate the uri
+    //do it with a DOMDocument 
+    $appdom = new DOMDocument("1.0");
+    $appdom->preserveWhiteSpace = true;
+    $appdom->formatOutput = true;
+    $appdom->load($appinstaller_url);
+
+    //root node
+    $appinstaller = $appdom->documentElement;
+    //Set the URI to reference the redirected file
     $protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-    $url = $protocol . $_SERVER['HTTP_HOST'] . "/app/sessiontalk/?" . $_SESSION['sessiontalk']['windows_softphone_name']['text'] . ".appinstaller";
-    $appinstaller->addAttribute('Uri', $url);
-    $bundle = $appinstaller->addChild('MainBundle');
-    $bundle->addAttribute('Name', "SessionTalkLtd.SessionCloudSoftphone");
-    $bundle->addAttribute('Version', $version);
-    $bundle->addAttribute('Publisher','CN=SessionTalk Ltd, OU=R&D, O=SessionTalk Ltd, STREET=2 Cariocca Business Park Sawley Road Miles Platting, STREET=Cariocca Business Park, L=Manchester, PostalCode=M40 8BB, C=GB');
-    $bundle->addAttribute('Uri', $windows_softphone_url);
-    $output = $appinstaller->asXML();
+    $url = $protocol . $_SERVER['HTTP_HOST'] . "/app/sessiontalk/?" . $softphone_name . ".appinstaller";
+    $appinstaller->setAttribute('Uri', $url);
+    //Set the update interval
+    if (isset($update_interval)) {
+        $updatesettings = $appdom->getElementsbyTagName('OnLaunch');
+        if ($updatesettings->length >= 1) {
+            $updatesettings->item(0)->setAttribute('HoursBetweenUpdateChecks', $update_interval);
+        }
+        else {
+            $updatesettings = $appdom->CreateElement('UpdateSettings');
+            $updateinterval = $appdom->CreateElement('UpdateInterval');
+            $updateinterval->setAttribute('HoursBetweenUpdateChecks', $update_interval);
+            $updatesettings->appendChild($updateinterval);
+            $appinstaller->appendChild($updatesettings);
+        }
+    }
 
-    // $dom = new DOMDocument("1.0");
-    // $dom->preserveWhiteSpace = false;
-    // $dom->formatOutput = true;
-    // $dom->loadXML($appinstaller->asXML());
-
+    $output = $appdom->saveXML();
     //return the file
-    Header("Content-Disposition: attachment; filename=".$_SESSION['sessiontalk']['windows_softphone_name']['text'].".appinstaller");
+    Header("Content-Disposition: attachment; filename=" . $softphone_name . ".appinstaller");
     Header('Content-type: text/xml');
-    Header("Content-length: " . strlen($output)); // tells file size
-    // print($dom->saveXML());
+    Header("Content-length: " . strlen($output)); // tells file size, the Microsoft app installer sends a HEAD and fails if it doesn't get the content length
     echo $output;
 ?>

@@ -40,7 +40,7 @@
 	$y++;
 
 
-	
+
 
 //default settings
 	$y=0;
@@ -99,7 +99,7 @@
 	$apps[$x]['default_settings'][$y]['default_setting_value'] = "1";
 	$apps[$x]['default_settings'][$y]['default_setting_enabled'] = "true";
 	$apps[$x]['default_settings'][$y]['default_setting_description'] = "Sessiontalk Maximum Apps per Extension. Defaults to 1 if not set, 0 for unlimited.";
-	$y++;		
+	$y++;
 	$apps[$x]['default_settings'][$y]['default_setting_uuid'] = "6dbdeca0-131f-11eb-adc1-0242ac120002";
 	$apps[$x]['default_settings'][$y]['default_setting_category'] = "sessiontalk";
 	$apps[$x]['default_settings'][$y]['default_setting_subcategory'] = "qr_expiration";
@@ -124,21 +124,21 @@
 	$apps[$x]['default_settings'][$y]['default_setting_enabled'] = "true";
 	$apps[$x]['default_settings'][$y]['default_setting_description'] = "Enable generating the Link to activate the Windows Softphone";
 	$y++;
-	$apps[$x]['default_settings'][$y]['default_setting_uuid'] = "8e38ad32-b124-4793-92a5-7f09478dfa51";
+	$apps[$x]['default_settings'][$y]['default_setting_uuid'] = "a20a3993-1714-4b56-92a6-b5d8930cea6f";
 	$apps[$x]['default_settings'][$y]['default_setting_category'] = "sessiontalk";
-	$apps[$x]['default_settings'][$y]['default_setting_subcategory'] = "windows_softphone_url";
+	$apps[$x]['default_settings'][$y]['default_setting_subcategory'] = "windows_appinstaller_url";
 	$apps[$x]['default_settings'][$y]['default_setting_name'] = "text";
-	$apps[$x]['default_settings'][$y]['default_setting_value'] = "https://windows-softphone.s3.eu-west-2.amazonaws.com/sessioncloud.appxbundle";
+	$apps[$x]['default_settings'][$y]['default_setting_value'] = "https://windows-softphone.s3.eu-west-2.amazonaws.com/sessioncloud.appinstaller";
 	$apps[$x]['default_settings'][$y]['default_setting_enabled'] = "true";
-	$apps[$x]['default_settings'][$y]['default_setting_description'] = "URL for the Windows softphone app. Default is the generic, update if you have a whitelabel app";
+	$apps[$x]['default_settings'][$y]['default_setting_description'] = "URL for the Windows softphone appinstaller. Default is the generic, update if you have a whitelabel app";
 	$y++;
-	$apps[$x]['default_settings'][$y]['default_setting_uuid'] = "2a07baa3-bf07-44a3-b9de-33f350a0e8b6";
+	$apps[$x]['default_settings'][$y]['default_setting_uuid'] = "9782d32a-4c4d-47c9-8225-6160278fb86c";
 	$apps[$x]['default_settings'][$y]['default_setting_category'] = "sessiontalk";
-	$apps[$x]['default_settings'][$y]['default_setting_subcategory'] = "windows_softphone_version";
+	$apps[$x]['default_settings'][$y]['default_setting_subcategory'] = "windows_update_interval";
 	$apps[$x]['default_settings'][$y]['default_setting_name'] = "text";
-	$apps[$x]['default_settings'][$y]['default_setting_value'] = "1.0.67.0";
-	$apps[$x]['default_settings'][$y]['default_setting_enabled'] = "true";
-	$apps[$x]['default_settings'][$y]['default_setting_description'] = "Version Number for the sessioncloud .appxbundle. It must match the bundle referenced in the softphone url.";
+	$apps[$x]['default_settings'][$y]['default_setting_value'] = "1";
+	$apps[$x]['default_settings'][$y]['default_setting_enabled'] = "false";
+	$apps[$x]['default_settings'][$y]['default_setting_description'] = "How often to check for updates in hours. The current generic installer defaults to 1";
 	$y++;
 	$apps[$x]['default_settings'][$y]['default_setting_uuid'] = "4794ea27-df93-4e75-8250-6cc96ffb9c60";
 	$apps[$x]['default_settings'][$y]['default_setting_category'] = "sessiontalk";
@@ -146,7 +146,7 @@
 	$apps[$x]['default_settings'][$y]['default_setting_name'] = "text";
 	$apps[$x]['default_settings'][$y]['default_setting_value'] = "SessionCloud";
 	$apps[$x]['default_settings'][$y]['default_setting_enabled'] = "true";
-	$apps[$x]['default_settings'][$y]['default_setting_description'] = "File name for the .appinstaller file. Not usually seen by the end user unless they go out of their way to download the file instead of clicking the link";
+	$apps[$x]['default_settings'][$y]['default_setting_description'] = "File name for the generated .appinstaller file. Not usually seen by the end user unless they go out of their way to download the file instead of clicking the link";
 	$y++;
 	$apps[$x]['default_settings'][$y]['default_setting_uuid'] = "3c3af619-2e7f-47bf-b37b-5b842150ea18";
 	$apps[$x]['default_settings'][$y]['default_setting_category'] = "sessiontalk";
@@ -164,7 +164,7 @@
 	$apps[$x]['default_settings'][$y]['default_setting_enabled'] = "true";
 	$apps[$x]['default_settings'][$y]['default_setting_description'] = "URL for the Apple softphone app. Default is the generic, update if you have a whitelabel app";
 	$y++;
-	
+
 // schema details
 	$y = 0; //table array index
 	$z = 0; //field array index
