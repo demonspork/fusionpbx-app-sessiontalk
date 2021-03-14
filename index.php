@@ -114,8 +114,15 @@ if (strpos($_SERVER['REQUEST_URI'],'.appinstaller') !== false) {
 	echo "<div class='action_bar' id='action_bar'>\n";
 	echo "	<div class='heading'><b>".$text['title-sessiontalk']."</b></div>\n";
 	echo "	<div class='actions'>\n";
-	echo "		<a href='".$_SESSION['sessiontalk']['android_url']['text']."' target='_blank'><img src='/app/sessiontalk/resources/images/google_play.png' style='width: auto; height: 30px;' /></a>";
-	echo "		<a href='".$_SESSION['sessiontalk']['apple_url']['text']."' target='_blank'><img src='/app/sessiontalk/resources/images/apple_app_store.png' style='width: auto; height: 30px;' /></a>";
+	if (permission_exists('default_setting_view')) {
+		echo button::create(['type'=>'button','label'=>$text['button-settings'],'icon'=>$_SESSION['theme']['button_icon_settings'],'name'=>'btn_settings','style'=>'margin-right: 2px;','link'=>PROJECT_PATH.'/core/default_settings/default_settings.php?default_setting_category=sessiontalk']);
+	}
+	if (permission_exists('device_view')) {
+		echo button::create(['type'=>'button','label'=>$text['label-devices'],'icon'=>'mobile','name'=>'btn_devices','style'=>'margin-right: 2px;','link'=>PROJECT_PATH.'/app/devices/devices.php?search=sessiontalk']);
+	}
+	if (permission_exists('ring_group_edit') && $ring_groups) {
+		echo button::create(['type'=>'button','label'=>$text['button-toggle'],'icon'=>$_SESSION['theme']['button_icon_toggle'],'name'=>'btn_toggle','onclick'=>"modal_open('modal-toggle','btn_toggle');"]);
+	}
 	echo "	</div>\n";
 	echo "	<div style='clear: both;'></div>\n";
 	echo "</div>\n";
@@ -127,6 +134,13 @@ if (strpos($_SERVER['REQUEST_URI'],'.appinstaller') !== false) {
 
 	echo "<br /><br />\n";
 	//echo "QR Content:".$credentials['mobile']."<br />\n  ";  //enable for debugging
+	//Activation Link for Windows Softphone
+	if ($_SESSION['sessiontalk']['windows_softphone']['boolean'] && is_uuid($extension_uuid)) {
+		$windows_credentials = $app_details->get_credentials();
+		echo "<a href=\"".$windows_credentials['windows']."\"/><img src='/app/sessiontalk/resources/images/windows_10.png' alt='".$text['label-windows-softphone']."' style='width: auto; height: 30px;' /></a>";
+	}
+	echo "		<a href='".$_SESSION['sessiontalk']['android_url']['text']."' target='_blank'><img src='/app/sessiontalk/resources/images/google_play.png' style='width: auto; height: 30px;' /></a>";
+	echo "		<a href='".$_SESSION['sessiontalk']['apple_url']['text']."' target='_blank'><img src='/app/sessiontalk/resources/images/apple_app_store.png' style='width: auto; height: 30px;' /></a>";	
 	echo "<div style='text-align: center; white-space: nowrap; margin: 10px 0 40px 0;'>";
 	echo $text['label-extension']."<br />\n";
 	echo "<select name='id' class='formfld' onchange='this.form.submit();'>\n";
@@ -143,13 +157,7 @@ if (strpos($_SERVER['REQUEST_URI'],'.appinstaller') !== false) {
 	echo "<br />\n";
 
 
-//Activation Link for Windows Softphone
-	if ($_SESSION['sessiontalk']['windows_softphone']['boolean'] && is_uuid($extension_uuid)) {
-		$windows_credentials = $app_details->get_credentials();
-		echo "<br /><div style='text-align: center; white-space: nowrap;'>";
-		echo "<a href=\"".$windows_credentials['windows']."\"/>".$text['label-windows-softphone']."</a><br />";
-		echo "</div>\n";
-	}
+
 
 //html image
 	if (is_uuid($extension_uuid)) {
