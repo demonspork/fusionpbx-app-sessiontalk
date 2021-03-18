@@ -36,7 +36,7 @@
 
 	//Read REQUEST
 	$reprovision = $_REQUEST['reprovision'] == "true" ? true : false;
-	$password = $_REQUEST['password'];
+	$password = $_REQUEST['password'] ?: $_REQUEST['key'];
 	$device_id = $_REQUEST['deviceId'];
 	$username_part = explode("@", $_REQUEST['username']);
 	$domain_name = $username_part[1];
